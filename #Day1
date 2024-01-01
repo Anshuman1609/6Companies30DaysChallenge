@@ -72,3 +72,48 @@ public:
 
     }
 };
+
+
+
+
+
+Q3. Query Kth Smallest Trimmed Number
+        You are given a 0-indexed array of strings nums, where each string is of equal length and consists of only digits.
+        You are also given a 0-indexed 2D integer array queries where queries[i] = [ki, trimi]. For each queries[i], you need to:
+            * Trim each number in nums to its rightmost trimi digits.
+            * Determine the index of the kith smallest trimmed number in nums. If two trimmed numbers are equal, the number with the lower index is considered to be smaller.
+            * Reset each number in nums to its original length.
+        Return an array answer of the same length as queries, where answer[i] is the answer to the ith query.
+            * To trim to the rightmost x digits means to keep removing the leftmost digit, until only x digits remain.
+            * Strings in nums may contain leading zeros.
+
+Solution :- 
+        class Solution {
+        public:
+            vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& queries) {
+                vector<int>ans;
+                for(int i=0;i<queries.size();i++){
+                    int k=queries[i][0];
+                    int trim=queries[i][1];
+                    priority_queue<pair<string,int>,vector<pair<string,int>>,greater<pair<string,int>>>pq;
+                    for(int j=0;j<nums.size();j++){
+                        string temp=nums[j];
+                        string res;
+                        for(int l=temp.size()-trim;l<temp.size();l++)
+                            res+=temp[l];
+                        pq.push({res,j});
+                    }
+                    int top;
+                    while(!pq.empty() && k-- ){
+                        top=pq.top().second;
+                        pq.pop();
+                    }
+                    ans.push_back(top);
+                    
+                    
+                }
+                return ans;
+                
+            }
+        };
+            
